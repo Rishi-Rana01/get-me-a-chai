@@ -1,10 +1,7 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
 import SessionWrapper from "@/component/sessionWrapper";
 import Footer from "@/component/Footer";
 import Navbar from "@/component/Navbar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Get me A Chai - Fund your projects with chai",
