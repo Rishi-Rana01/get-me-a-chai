@@ -6,7 +6,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center h-[44vh] gap-4">
         <div className="font-bold text-5xl flex gap-2 justify-center items-center ">Buy Me a Chaii
           <span>
-            <img src="/tea.gif" width={88} alt="" />
+            <img className="animate-pulse invertimg" src="/tea.gif" width={88} alt="" />
           </span>
         </div>
         <p>A crowdfunding platform for creators to fund their projects.</p>

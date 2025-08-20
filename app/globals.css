@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
 @import "tailwindcss";
 
-
+.invertimg {
+  filter: invert(0.23);
+}
 
 body {
   font-family: 'Inter', sans-serif;
