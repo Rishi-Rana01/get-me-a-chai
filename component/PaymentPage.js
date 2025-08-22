@@ -1,26 +1,48 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Script from 'next/script'
 import { initiate } from '@/actions/useractions';
 import { useSession } from 'next-auth/react';
+import { fetchuser, fetchpayments } from '@/actions/useractions';
 
 
 const PaymentPage = ({ username }) => {
     // const { data: session } = useSession();
 
-    const [paymentform, setPaymentform] = useState({})
+    const [paymentform, setPaymentform] = useState({
+        name: "",
+        amount: "",
+        message: ""
+    });
+
+
+    const [currentuser, setcurrentuser] = useState({})
+    const [payments, setPayments] = useState([])
+
+    useEffect(() => {
+        getData();
+    }, [username])
 
     const handleChange = (e) => {
         setPaymentform({ ...paymentform, [e.target.name]: e.target.value })
     }
+    const getData = async (params) => {
+        let u = await fetchuser(username)
+        setcurrentuser(u)
+        let dbpayments = await fetchpayments(username)
+        setPayments(dbpayments)
+        console.log(u, dbpayments)
 
-    // ...existing code...
+    }
+
+
+
     const pay = async (amount) => {
         // Set userId from session before initiating payment
         let a = await initiate(amount, username, paymentform);
         let orderId = a.id
 
-        const options = {
+        var options = {
             key: process.env.NEXT_PUBLIC_KEY_ID, // <-- Use NEXT_PUBLIC_ for frontend env vars
             amount: amount,
             currency: "INR",
@@ -30,10 +52,12 @@ const PaymentPage = ({ username }) => {
             order_id: orderId,
             callback_url: `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
             prefill: {
-                name: "kumar",
-                email: "gaurav.kumar@example.com",
-                contact: "900800900"
+                name: currentuser.name || "Guest",
+                email: currentuser.email || "guest@example.com",
+                contact: currentuser.contact || "9999999999"
             },
+
+
             notes: {
                 address: "Razorpay Corporate Office"
             },
@@ -87,36 +111,26 @@ const PaymentPage = ({ username }) => {
                     <div className="supporters w-1/2 bg-slate-800 rounded-lg text-white p-10">
                         {/* Show list of all the supporter as the learderBoard */}
                         <h2 className='text-2xl font-bold my-5'>Supporters</h2>
+
                         <ul className='mx-4 text-lg'>
-                            <li className='my-2 flex gap-2 items-center'>
-                                <img className='rounded-full' width={45} src="https://randomuser.me/api/portraits/men/1.jpg" alt="" />
-                                <span className='font-bold'>Shubham</span> donated <span className='font-bold'>$30</span> with a message: Weldone Bro 👌</li>
-                            <li className='my-2 flex gap-2 items-center'>
-                                <img className='rounded-full' width={45} src="https://randomuser.me/api/portraits/women/2.jpg" alt="" />
-                                <span className='font-bold'>Riya</span> donated <span className='font-bold'>$10</span> with a message: Keep it up!</li>
-                            <li className='my-2 flex gap-2 items-center'>
-                                <img className='rounded-full' width={45} src="https://randomuser.me/api/portraits/men/3.jpg" alt="" />
-                                <span className='font-bold'>Parshant</span> donated <span className='font-bold'>$50</span> with a message: I support you❤️ </li>
-                            <li className='my-2 flex gap-2 items-center'>
-                                <img className='rounded-full' width={45} src="https://randomuser.me/api/portraits/women/4.jpg" alt="" />
-                                <span className='font-bold'>Ritika</span> donated <span className='font-bold'>$20</span> with a message: Keep it up!</li>
-                            <li className='my-2 flex gap-2 items-center'>
-                                <img className='rounded-full' width={45} src="https://randomuser.me/api/portraits/men/5.jpg" alt="" />
-                                <span className='font-bold'>Karan</span> donated <span className='font-bold'>$50</span> with a message: Great job!</li>
-                            <li className='my-2 flex gap-2 items-center'>
-                                <img className='rounded-full' width={45} src="https://randomuser.me/api/portraits/men/6.jpg" alt="" />
-                                <span className='font-bold'>Abhi</span> donated <span className='font-bold'>$300</span> with a message: Keep it up!</li>
+                            {payments.map((p, i) => {
+                                return <li key={i} className='my-2 flex gap-2 items-center'>
+                                    <img className='rounded-full' width={45} src={`https://randomuser.me/api/portraits/men/${i}.jpg`} alt="" />
+                                    <span className='font-bold'>{p.name}</span> donated <span className='font-bold'>${p.amount}</span> with a message: {p.message}
+                                </li>
+                            })}
+
                         </ul>
 
                     </div>
                     <div className="makepayment w-1/2 bg-slate-800 rounded-lg text-white p-10">
                         <h2 className='text-2xl font-bold my-5'>Make a Payment</h2>
                         <form className='flex flex-col gap-4'>
-                            <input onChange={handleChange} value={paymentform.name} name='name' type="text" className='p-2 rounded-lg bg-slate-700 text-white' />
-                            <input onChange={handleChange} value={paymentform.amount} type="text" name='amount' placeholder='Enter Amount' className='p-2 rounded-lg bg-slate-700 text-white' />
-                            <input onChange={handleChange} value={paymentform.message} name='message' placeholder='Add a message' className='p-2 rounded-lg bg-slate-700 text-white' rows="3"></input>
+                            <input onChange={handleChange} value={paymentform.name ?? ""} name='name' type="text" className='p-2 rounded-lg bg-slate-700 text-white' placeholder='Enter Name' />
+                            <input onChange={handleChange} value={paymentform.amount ?? ""} name="amount" type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Amount' />
+                            <input onChange={handleChange} value={paymentform.message ?? ""} name='message' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Message' />
                             <div className="text-center">
-                                <button type="button" className="w-1/2 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-0 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">Pay Now</button>
+                                <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} type="button" className="w-1/2 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-0 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">Pay Now</button>
                             </div>
                         </form>
                         {/* or choose from the amounts */}

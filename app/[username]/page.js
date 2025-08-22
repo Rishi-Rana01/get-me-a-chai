@@ -1,6 +1,6 @@
 import PaymentPage from "@/component/PaymentPage";
 
-export default function UsernamePage({ params }) {
-  const { username } = params; // no await needed
+export default async function UsernamePage({ params }) {
+  const { username } = await params; // no await needed
   return <PaymentPage username={username} />;
 }

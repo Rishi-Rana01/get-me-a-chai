@@ -1,9 +1,14 @@
 import NextAuth from 'next-auth'
-import GitHubProvider from 'next-auth/providers/github'
-import mongoose from 'mongoose'
-import User from '@/models/Users' // Corrected import path
-import Payment from '@/models/Payment'
-import connectDb from '@/db/connectDb'
+// import AppleProvider from 'next-auth/providers/apple'
+// import FacebookProvider from 'next-auth/providers/facebook'
+// import GoogleProvider from 'next-auth/providers/google'
+// import EmailProvider from 'next-auth/providers/email'
+import GitHubProvider from "next-auth/providers/github";
+import mongoose from "mongoose";
+import connectDb from '@/db/connectDb';
+import User from '@/models/Users';
+import Payment from '@/models/Payment';
+
 
 export const authoptions = NextAuth({
   providers: [
@@ -33,20 +38,31 @@ export const authoptions = NextAuth({
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
       if (account.provider == "github") {
-        await connectDb() // Ensure the database connection is established
+        await connectDb()
         // Check if the user already exists in the database
-        const currentUser = await User.findOne({ email: email });
+        const currentUser = await User.findOne({ email: email })
         if (!currentUser) {
           // Create a new user
           const newUser = new User({
             email: user.email,
             username: user.email.split("@")[0],
-            name: profile?.name || user.email.split("@")[0], // <-- Add this line
-            githubId: profile?.id?.toString() // Optional: store GitHub ID
+            name: profile?.name || user.name || user.email.split("@")[0], // <-- fallback chain
+            githubId: profile?.id?.toString()
           });
-          await newUser.save();
+          await User.findOneAndUpdate(
+            { email: user.email },
+            {
+              $setOnInsert: {
+                username: user.email.split("@")[0],
+                name: profile?.name || user.name || user.email.split("@")[0],
+                githubId: profile?.id?.toString()
+              }
+            },
+            { upsert: true, new: true }
+          );
+
         }
-        return true;
+        return true
       }
     },
 

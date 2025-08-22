@@ -15,7 +15,7 @@ export const initiate = async (amount, to_username, paymentform) => {
 
     try {
         var instance = new Razorpay({
-            key_id: process.env.KEY_ID,
+            key_id: process.env.NEXT_PUBLIC_KEY_ID,
             key_secret: process.env.KEY_SECRET,
         });
 
@@ -32,11 +32,53 @@ export const initiate = async (amount, to_username, paymentform) => {
             to_user: to_username,
             name: paymentform.name,
             message: paymentform.message,
-            userId: paymentform.userId,
+            done: false
+
         });
         console.log("Received userId:", paymentform.userId);
         return x;
     } catch (err) {
         return { statusCode: 400, error: err.message || "Payment initiation failed" };
     }
+}
+
+export const fetchuser = async (username) => {
+    await connectDb();
+    let u = await User.findOne({ username: username }).lean();
+    if (!u) return null;
+    // Convert _id and any Date fields to string
+    return {
+        ...u,
+        _id: u._id.toString(),
+        createdAt: u.createdAt?.toISOString(),
+        updatedAt: u.updatedAt?.toISOString(),
+    };
 };
+
+export const fetchpayments = async (username) => {
+    await connectDb();
+    let payments = await Payment.find({ to_user: username }).sort({ amount: -1 }).lean();
+    // Map each payment to plain object with stringified _id and dates
+    return payments.map(p => ({
+        ...p,
+        _id: p._id.toString(),
+        createdAt: p.createdAt?.toISOString(),
+        updatedAt: p.updatedAt?.toISOString(),
+    }));
+};
+
+export const updateProfile = async (data, oldusername) => {
+    await connectDb()
+    let ndata = Object.fromEntries(data)
+    // If the username is being updated, check if username is available
+    if (oldusername !== ndata.username) {
+        let u = await User.findOne({ username: ndata.username })
+        if (u) {
+            return { error: "Username already exists" }
+        }
+
+    }
+    else {
+        await User.updateOne({ email: ndata.email }, ndata)
+    }
+}
