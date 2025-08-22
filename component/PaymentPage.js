@@ -4,6 +4,12 @@ import Script from 'next/script'
 import { initiate } from '@/actions/useractions';
 import { useSession } from 'next-auth/react';
 import { fetchuser, fetchpayments } from '@/actions/useractions';
+import { useSearchParams } from 'next/navigation';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+
 
 
 const PaymentPage = ({ username }) => {
@@ -18,15 +24,36 @@ const PaymentPage = ({ username }) => {
 
     const [currentuser, setcurrentuser] = useState({})
     const [payments, setPayments] = useState([])
+    const searchParams = useSearchParams()
+    const router = useRouter()
 
     useEffect(() => {
         getData();
     }, [username])
 
+    useEffect(() => {
+        if (searchParams.get("paymentdone") == "true" ) {
+            toast('Thanks for your donation!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+            });
+        }
+        router.push(`/${username}`)
+
+    }, [])
+
+
     const handleChange = (e) => {
         setPaymentform({ ...paymentform, [e.target.name]: e.target.value })
     }
-    const getData = async (params) => {
+    const getData = async () => {
         let u = await fetchuser(username)
         setcurrentuser(u)
         let dbpayments = await fetchpayments(username)
@@ -72,6 +99,20 @@ const PaymentPage = ({ username }) => {
 
     return (
         <>
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light" />
+            {/* Same as */}
+            <ToastContainer />
+
             <Script
                 src="https://checkout.razorpay.com/v1/checkout.js"
                 strategy="afterInteractive"
@@ -101,10 +142,10 @@ const PaymentPage = ({ username }) => {
                 </div>
 
                 <div className="text-slate-400">
-                    Creating a personalized page for each user.
+                    Lets help {username} get a Chai!
                 </div>
                 <div className="text-slate-400">
-                    1M members. 99 posts. 100+ projects.
+                    {payments.length} Payments .   ₹{payments.reduce((a, b) => a + b.amount, 0)} raised
                 </div>
                 <div className="payment flex gap-3 w-[88%] mt-11">
                     <div className="supporters w-1/2 bg-slate-800 rounded-lg text-white p-10">
@@ -127,8 +168,8 @@ const PaymentPage = ({ username }) => {
                         <h2 className='text-2xl font-bold my-5'>Make a Payment</h2>
                         <form className='flex flex-col gap-4'>
                             <input onChange={handleChange} value={paymentform.name ?? ""} name='name' type="text" className='p-2 rounded-lg bg-slate-700 text-white' placeholder='Enter Name' />
-                            <input onChange={handleChange} value={paymentform.amount ?? ""} name="amount" type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Amount' />
                             <input onChange={handleChange} value={paymentform.message ?? ""} name='message' type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Message' />
+                            <input onChange={handleChange} value={paymentform.amount ?? ""} name="amount" type="text" className='w-full p-3 rounded-lg bg-slate-800' placeholder='Enter Amount' />
                             <div className="text-center">
                                 <button onClick={() => pay(Number.parseInt(paymentform.amount) * 100)} type="button"
                                     className="text-white bg-gradient-to-br from-purple-900 to-blue-900 hover:bg-gradient-to-bl 
