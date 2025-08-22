@@ -43,7 +43,7 @@ const PaymentPage = ({ username }) => {
         let orderId = a.id
 
         var options = {
-            key: process.env.NEXT_PUBLIC_KEY_ID, // <-- Use NEXT_PUBLIC_ for frontend env vars
+            key: currentuser.razorpayid, // <-- Use NEXT_PUBLIC_ for frontend env vars
             amount: amount,
             currency: "INR",
             name: "Get Me A Chai",
@@ -65,8 +65,7 @@ const PaymentPage = ({ username }) => {
                 color: "#3399cc"
             }
         };
-
-        const rzp1 = new window.Razorpay(options);
+        var rzp1 = new Razorpay(options);
         rzp1.open();
     };
 
@@ -88,12 +87,12 @@ const PaymentPage = ({ username }) => {
                         cursor: "zoom-in",
                         backgroundColor: "hsl(0, 0%, 90%)"
                     }}
-                    src="https://c10.patreonusercontent.com/4/patreon-media/p/campaign/4842667/452146dcfeb04f38853368f554aadde1/eyJ3IjoxNjAwLCJ3ZSI6MX0%3D/18.gif?token-hash=zsP2VxX28Pzusuu7g5cICAJA3of1IL3Ha8GBMmmAqus%3D&amp;token-time=1756944000"
+                    src={currentuser.coverpic}
                     width="1024"
                     height="256"
                 />
-                <div className='absolute -bottom-20 right-[46%] border-white border-2 rounded-full'>
-                    <img className='rounded-full' width={85} height={85} src="https://images.unsplash.com/photo-1614027164847-1b28cfe1df60?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlvbnxlbnwwfHwwfHx8MA%3D%3D" alt="" />
+                <div className='absolute -bottom-20 right-[46%] border-white border-2 overflow-hidden rounded-full size-32'>
+                    <img className='rounded-full object-cover size-32' src={currentuser.profilepic} alt="" />
                 </div>
             </div>
             <div className="info flex justify-center items-center my-24 flex-col gap-2">
@@ -105,7 +104,7 @@ const PaymentPage = ({ username }) => {
                     Creating a personalized page for each user.
                 </div>
                 <div className="text-slate-400">
-                    1M members. 99 posts. 1000+ projects.
+                    1M members. 99 posts. 100+ projects.
                 </div>
                 <div className="payment flex gap-3 w-[88%] mt-11">
                     <div className="supporters w-1/2 bg-slate-800 rounded-lg text-white p-10">
@@ -113,10 +112,11 @@ const PaymentPage = ({ username }) => {
                         <h2 className='text-2xl font-bold my-5'>Supporters</h2>
 
                         <ul className='mx-4 text-lg'>
+                            {payments.length === 0 && <div>No supporters yet. Be the first one to support!</div>}
                             {payments.map((p, i) => {
                                 return <li key={i} className='my-2 flex gap-2 items-center'>
                                     <img className='rounded-full' width={45} src={`https://randomuser.me/api/portraits/men/${i}.jpg`} alt="" />
-                                    <span className='font-bold'>{p.name}</span> donated <span className='font-bold'>${p.amount}</span> with a message: {p.message}
+                                    <span className='font-bold'>{p.name}</span> donated <span className='font-bold'>₹{p.amount}</span> with a message: {p.message}
                                 </li>
                             })}
 
