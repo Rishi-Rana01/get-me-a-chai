@@ -6,7 +6,7 @@ import NextAuth from 'next-auth'
 import GitHubProvider from "next-auth/providers/github";
 import mongoose from "mongoose";
 import connectDb from '@/db/connectDb';
-import User from '@/models/Users';
+import User from '@/models/User';
 import Payment from '@/models/Payment';
 
 
