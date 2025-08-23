@@ -7,41 +7,66 @@ import User from "@/models/User";
 
 
 export const initiate = async (amount, to_username, paymentform) => {
-    await connectDb();
-    let user = await User.findOne({ username: to_username })
-    const secret = user.razorpaysecret
-
-    // Validate required fields
-    if (!amount || !to_username || !paymentform?.name) {
-        return { statusCode: 400, error: "Missing required fields" };
-    }
-
     try {
+        await connectDb();
+        
+        // Validate required fields
+        if (!amount || !to_username) {
+            return { error: "Missing amount or username" };
+        }
+        
+        if (!paymentform?.name) {
+            return { error: "Please provide your name" };
+        }
+        
+        // Find user and validate Razorpay credentials
+        let user = await User.findOne({ username: to_username });
+        if (!user) {
+            return { error: "User not found" };
+        }
+        
+        if (!user.razorpayid || !user.razorpaysecret) {
+            return { error: "Payment configuration missing for this user" };
+        }
+        
+        const secret = user.razorpaysecret;
+        
+        // Create Razorpay instance
         var instance = new Razorpay({
             key_id: user.razorpayid,
             key_secret: secret,
         });
 
+        // Ensure amount is a valid number
+        const parsedAmount = Number.parseInt(amount);
+        if (isNaN(parsedAmount) || parsedAmount <= 0) {
+            return { error: "Invalid amount" };
+        }
+        
         let options = {
-            amount: Number.parseInt(amount),
-            currency: "INR", // Fixed currency code
+            amount: parsedAmount,
+            currency: "INR",
+            receipt: `receipt_${Date.now()}`,
         };
 
+        // Create order in Razorpay
         let x = await instance.orders.create(options);
-
+        
+        // Store payment details in database
         await Payment.create({
             oid: x.id,
-            amount: amount,
+            amount: parsedAmount / 100, // Store actual amount in rupees
             to_user: to_username,
             name: paymentform.name,
-            message: paymentform.message,
+            message: paymentform.message || "",
             done: false
-
         });
-        console.log("Received userId:", paymentform.userId);
+        
+        console.log("Payment initiated:", x.id);
         return x;
     } catch (err) {
-        return { statusCode: 400, error: err.message || "Payment initiation failed" };
+        console.error("Payment initiation error:", err);
+        return { error: err.message || "Payment initiation failed" };
     }
 }
 

@@ -66,35 +66,56 @@ const PaymentPage = ({ username }) => {
 
 
     const pay = async (amount) => {
-        // Set userId from session before initiating payment
-        let a = await initiate(amount, username, paymentform);
-        let orderId = a.id
-
-        var options = {
-            key: currentuser.razorpayid, // <-- Use NEXT_PUBLIC_ for frontend env vars
-            amount: amount,
-            currency: "INR",
-            name: "Get Me A Chai",
-            description: "Test Transaction",
-            image: "https://example.com/your_logo",
-            order_id: orderId,
-            callback_url: `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
-            prefill: {
-                name: currentuser.name || "Guest",
-                email: currentuser.email || "guest@example.com",
-                contact: currentuser.contact || "9999999999"
-            },
-
-
-            notes: {
-                address: "Razorpay Corporate Office"
-            },
-            theme: {
-                color: "#3399cc"
+        try {
+            // Validate form data
+            if (!paymentform.name || paymentform.name.length < 3) {
+                toast.error('Please enter a valid name (at least 3 characters)');
+                return;
             }
-        };
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
+            
+            // Set userId from session before initiating payment
+            let a = await initiate(amount, username, paymentform);
+            
+            if (a.error) {
+                toast.error(a.error || 'Payment initiation failed');
+                return;
+            }
+            
+            let orderId = a.id;
+            
+            var options = {
+                key: currentuser.razorpayid,
+                amount: amount,
+                currency: "INR",
+                name: "Get Me A Chai",
+                description: "Support your favorite creator",
+                image: "/tea.gif", // Use your app logo
+                order_id: orderId,
+                callback_url: `${process.env.NEXT_PUBLIC_URL}/api/razorpay`,
+                prefill: {
+                    name: paymentform.name || "Guest",
+                    email: currentuser.email || "guest@example.com",
+                    contact: currentuser.contact || "9999999999"
+                },
+                notes: {
+                    address: "Razorpay Payment"
+                },
+                theme: {
+                    color: "#3399cc"
+                },
+                modal: {
+                    ondismiss: function() {
+                        console.log('Payment dismissed');
+                    }
+                }
+            };
+            
+            const rzp1 = new window.Razorpay(options);
+            rzp1.open();
+        } catch (error) {
+            console.error('Payment error:', error);
+            toast.error('Payment failed. Please try again.');
+        }
     };
 
 
@@ -133,7 +154,7 @@ const PaymentPage = ({ username }) => {
                     width="1024"
                     height="256"
                 />
-                <div className='absolute -bottom-20 right-[46%] border-white border-2 overflow-hidden rounded-full size-32'>
+                <div className='absolute -bottom-20 left-1/2 transform -translate-x-1/2 border-white border-2 overflow-hidden rounded-full size-32'>
                     <img className='rounded-full object-cover size-32' src={currentuser.profilepic} alt="" />
                 </div>
             </div>
@@ -148,8 +169,8 @@ const PaymentPage = ({ username }) => {
                 <div className="text-slate-400">
                     {payments.length} Payments .   ₹{payments.reduce((a, b) => a + b.amount, 0)} raised
                 </div>
-                <div className="payment flex gap-3 w-[88%] mt-11">
-                    <div className="supporters w-1/2 bg-slate-800 rounded-lg text-white p-10">
+                <div className="payment flex flex-col md:flex-row gap-3 w-[95%] md:w-[88%] mt-11">
+                    <div className="supporters w-full md:w-1/2 bg-slate-800 rounded-lg text-white p-4 md:p-10 mb-4 md:mb-0">
                         {/* Show list of all the supporter as the learderBoard */}
                         <h2 className='text-2xl font-bold my-5'>Supporters</h2>
 
@@ -165,7 +186,7 @@ const PaymentPage = ({ username }) => {
                         </ul>
 
                     </div>
-                    <div className="makepayment w-1/2 bg-slate-800 rounded-lg text-white p-10">
+                    <div className="makepayment w-full md:w-1/2 bg-slate-800 rounded-lg text-white p-4 md:p-10">
                         <h2 className='text-2xl font-bold my-5'>Make a Payment</h2>
                         <form className='flex flex-col gap-4'>
                             <input onChange={handleChange} value={paymentform.name ?? ""} name='name' type="text" className='p-2 rounded-lg bg-slate-700 text-white' placeholder='Enter Name' />
@@ -182,7 +203,7 @@ const PaymentPage = ({ username }) => {
                             </div>
                         </form>
                         {/* or choose from the amounts */}
-                        <div className="flex justify-center gap-2 mt-4">
+                        <div className="flex flex-wrap justify-center gap-2 mt-4">
                             <button className='bg-blue-600 p-2 rounded-lg text-white' onClick={() => pay(1000)} >Pay ₹10</button>
                             <button className='bg-blue-600 p-2 rounded-lg text-white' onClick={() => pay(2000)} >Pay ₹20</button>
                             <button className='bg-blue-600 p-2 rounded-lg text-white' onClick={() => pay(3000)} >Pay ₹30</button>

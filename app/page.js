@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col justify-center items-center h-[44vh] gap-4">
-        <div className="font-bold text-5xl flex gap-2 justify-center items-center ">Buy Me a Chaii
+        <div className="font-bold text-3xl md:text-5xl flex gap-2 justify-center items-center text-center">Buy Me a Chaii
           <span>
             <img className="animate-pulse invertimg" src="/tea.gif" width={88} alt="" />
           </span>
@@ -34,7 +34,7 @@ export default function Home() {
       {/* 1 */}
       <div className="text-white container mx-auto pb-32 pt-14">
         <h1 className="text-center font-bold text-2xl mb-14">Your Fans can buy you a Chai</h1>
-        <div className="flex gap-5 justify-around">
+        <div className="flex flex-col md:flex-row gap-8 md:gap-5 justify-around">
           {/* ITEMS */}
           <div className="item space-y-3 flex flex-col items-center justify-center ">
             <img className=" bg-slate-400 rounded-full p-2 text-black" src="/man.gif" width={88} alt="" />

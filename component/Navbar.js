@@ -10,9 +10,9 @@ const Navbar = () => {
 
 
   return (
-    <nav className='bg-gray-900 shadow-xl shadow-white text-white flex justify-between items-center px-4 md:h-16'>
+    <nav className='bg-gray-900 shadow-xl shadow-white text-white flex flex-col md:flex-row justify-between items-center px-4 py-2 md:py-0 md:h-16'>
 
-      <Link className="logo font-bold text-lg flex justify-center items-center" href={"/"}>
+      <Link className="logo font-bold text-lg flex justify-center items-center w-full md:w-auto" href={"/"}>
         <img className='invertImg' src="tea.gif" width={44} alt="" />
         <span className='text-xl md:text-base my-3 md:my-0'>Get Me a Chai!</span>
       </Link>
@@ -25,7 +25,7 @@ const Navbar = () => {
         <li>Login</li>
       </ul> */}
 
-      <div className='relative flex justify-center items-center  md:block gap-4'>
+      <div className='relative flex justify-center items-center w-full md:w-auto md:block gap-4 my-2 md:my-0'>
         {session && <>
           <button onClick={() => setShowdropdown(!showdropdown)} onBlur={() => {
             setTimeout(() => {
