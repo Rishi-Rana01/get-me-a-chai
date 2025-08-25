@@ -4,6 +4,23 @@ A modern crowdfunding platform for creators, built with Next.js, MongoDB, and Ra
 
 ---
 
+## 📸 Project Screenshots  
+
+<p align="center">
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/main/public/Front.Page.png?raw=true" alt="Homepage Screenshot" width="45%" />
+  &nbsp; &nbsp;
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/Login.png?raw=true" alt="Login Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/Dashboard.png?raw=true" alt="Dashboard Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/UserPage.png?raw=true" alt="User Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/Payment.png?raw=true" alt="Payment Page Screenshot" width="45%" />
+</p>
+
+<p align="center">
+  🏠 Homepage &nbsp;&nbsp;|&nbsp;&nbsp; 🔑 Login Page
+</p>
+
+---
+
 ## Features
 
 - **User Authentication:** GitHub OAuth and email/password login via NextAuth.js
