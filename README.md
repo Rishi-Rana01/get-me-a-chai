@@ -7,16 +7,18 @@ A modern crowdfunding platform for creators, built with Next.js, MongoDB, and Ra
 ## 📸 Project Screenshots  
 
 <p align="center">
-  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/main/public/Front.Page.png?raw=true" alt="Homepage Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/master/public/Front.Page.png" alt="Homepage Screenshot" width="45%"  &nbsp; &nbsp; />
   &nbsp; &nbsp;
-  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/Login.png?raw=true" alt="Login Page Screenshot" width="45%" />
-  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/Dashboard.png?raw=true" alt="Dashboard Page Screenshot" width="45%" />
-  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/UserPage.png?raw=true" alt="User Page Screenshot" width="45%" />
-  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/main/public/Payment.png?raw=true" alt="Payment Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/master/public/UserPage.png" alt="Login Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/master/public/Dashboard.png" alt="Dashboard Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/master/public/UserPage.png" alt="User Page Screenshot" width="45%" />
+  <img src="https://github.com/Rishi-Rana01/get-me-a-chai/blob/master/public/UserPage.png" alt="Payment Page Screenshot" width="45%" />
 </p>
 
 <p align="center">
-  🏠 Homepage &nbsp;&nbsp;|&nbsp;&nbsp; 🔑 Login Page
+  🏠 HomePage &nbsp;&nbsp;|&nbsp;&nbsp; 🔑 Login Page |
+  💳 PaymentPage &nbsp;&nbsp;|&nbsp;&nbsp; 👤UserPage |
+  🧾Dashboard &nbsp;&nbsp;|
 </p>
 
 ---
