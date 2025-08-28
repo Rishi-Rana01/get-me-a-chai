@@ -60,13 +60,39 @@ export default function Home() {
       {/* 2 */}
 
       <div className="text-white container mx-auto pb-32 pt-14 flex flex-col items-center justify-center">
-        <h2 className="text-3xl font-bold text-center mb-14">Learn more about us</h2>
-        {/* Responsive youtube embed  */}
-        <div className="w-[90%] h-[40vh] md:w-[50%] md:h-[40vh] lg:w-[50%] lg:h-[40vh] xl:w-[50%] xl:h-[40vh]">
-          <iframe className="w-full h-full" src="https://www.youtube.com/embed/ojuUnfqnUI0?si=wMUv4DG3ia6Wt4zn"
-            title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; 
-          encrypted-media; gyroscope; picture-in-picture; web-share" allowFullScreen>
-          </iframe>
+        <h2 className="text-3xl font-bold text-center mb-8">Learn more about us</h2>
+
+        {/* Responsive youtube embed + description */}
+        <div className="w-[90%] md:w-[60%] lg:w-[50%]">
+          <div className="relative w-full h-[40vh] rounded-lg overflow-hidden shadow-lg">
+            <iframe
+              className="absolute inset-0 w-full h-full"
+              src="https://www.youtube.com/embed/VIDEO_ID"
+              title="Buy Me a Chai - About"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+
+          <p className="mt-6 text-center text-gray-200 max-w-2xl mx-auto">
+            Buy Me a Chai is a simple way for creators to receive small, meaningful support from their fans.
+            Fans can buy a chai to show appreciation, back projects, or collaborate. We focus on simplicity,
+            fast payouts, and building direct creator-fan relationships.
+          </p>
+
+          <div className="flex gap-3 mt-6 justify-center">
+            <Link href="/about">
+              <button className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl
+               focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg 
+               text-sm px-5 py-2.5 me-2 mb-2">Read our story</button>
+            </Link>
+
+            <Link href="/contact">
+              <button className="text-gray-700 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none font-medium rounded-lg 
+               text-sm px-5 py-2.5 me-2 mb-2">Contact us</button>
+            </Link> 
+          </div>
         </div>
       </div>
     </>
