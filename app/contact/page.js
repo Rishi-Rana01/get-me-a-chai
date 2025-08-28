@@ -5,7 +5,7 @@ import { toast, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 
-const contact = () => {
+const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -40,8 +40,6 @@ const contact = () => {
       theme: "light",
       transition: Bounce,
     });
-
-    alert('Thank you for your message!')
     setFormData({ name: '', email: '', message: '' })
   }
 
@@ -126,4 +124,4 @@ const contact = () => {
   )
 }
 
-export default contact
+export default Contact
