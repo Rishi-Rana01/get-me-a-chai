@@ -91,7 +91,7 @@ const Login = () => {
                     </form>
                     
                     <div className="mt-4 text-center">
-                        <p>Don't have an account? <Link href="/signup" className="text-blue-400 hover:underline">Sign Up</Link></p>
+                        <p> Don&apos;t have an account? <Link href="/signup" className="text-blue-400 hover:underline">Sign Up</Link></p>
                     </div>
                 </div>
                 
@@ -117,7 +117,7 @@ const Login = () => {
                                 </g>
                             </g>
                         </svg>
-                        <span>Continue with Github&#39;</span>
+                        <span>Continue with Github</span>
                     </button>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 
 const cardHover =
     "transition-transform duration-300 ease-in-out transform hover:-translate-y-2 hover:scale-105 shadow-lg hover:shadow-2xl bg-white rounded-xl p-4";
