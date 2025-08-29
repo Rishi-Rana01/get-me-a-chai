@@ -7,7 +7,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center h-[44vh] gap-4">
         <div className="font-bold text-3xl md:text-5xl flex gap-2 justify-center items-center text-center">Buy Me a Chaii
           <span>
-            <img className="animate-pulse invertimg" src="/tea.gif" width={88} alt="" />
+            <Image className="animate-pulse invertimg" src="/tea.gif" width={88} height={88} alt="" />
           </span>
         </div>
         <p>A crowdfunding platform for creators to fund their projects.</p>
@@ -37,19 +37,19 @@ export default function Home() {
         <div className="flex flex-col md:flex-row gap-8 md:gap-5 justify-around">
           {/* ITEMS */}
           <div className="item space-y-3 flex flex-col items-center justify-center ">
-            <img className=" bg-slate-400 rounded-full p-2 text-black" src="/man.gif" width={88} alt="" />
+            <Image className=" bg-slate-400 rounded-full p-2 text-black" src="/man.gif" width={88} height={88} alt="" />
             <p className="font-bold">Fans wants to help</p>
             <p className="text-center">Your Fans are available to support you</p>
           </div>
 
           <div className="item space-y-3 flex flex-col items-center justify-center ">
-            <img className=" bg-slate-400 rounded-full p-2 text-black" src="/coin.gif" width={88} alt="" />
+            <Image className=" bg-slate-400 rounded-full p-2 text-black" src="/coin.gif" width={88} height={88} alt="" />
             <p className="font-bold">Fans wants to contribute</p>
             <p className="text-center">Your Fans are willing to contribute</p>
           </div>
 
           <div className="item space-y-3 flex flex-col items-center justify-center ">
-            <img className=" bg-slate-400 rounded-full p-2 text-black" src="/group.gif" width={88} alt="" />
+            <Image className=" bg-slate-400 rounded-full p-2 text-black" src="/group.gif" width={88} height={88} alt="" />
             <p className="font-bold">Fans wants to collaborate</p>
             <p className="text-center">Your Fans are ready to collaborate with you</p>
           </div>

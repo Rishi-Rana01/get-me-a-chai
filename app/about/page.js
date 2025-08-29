@@ -23,10 +23,12 @@ const About = () => {
             <h2 className={`text-2xl font-semibold mb-4 ${headingGradient}`}>How It Works</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 text-black">
                 <div className={`flex items-center mb-6 ${cardHover}`}>
-                    <img
-                        className="w-20 h-20 rounded-full mr-4 transition-transform duration-300 hover:scale-110"
+                    <Image
+                        className=" w-20 h-20 rounded-full mr-4 transition-transform duration-300 hover:scale-110"
                         src="/group.gif"
                         alt="Fans Want to Collaborate"
+                        width={20}
+                        height={20}
                     />
                     <div>
                         <h3 className="text-xl font-semibold mb-2">Fans Want to Collaborate</h3>
@@ -34,10 +36,12 @@ const About = () => {
                     </div>
                 </div>
                 <div className={`flex items-center mb-6 ${cardHover}`}>
-                    <img
+                    <Image
                         className="w-20 h-20 rounded-full mr-4 transition-transform duration-300 hover:scale-110"
                         src="/coin.gif"
                         alt="Support Through Chai"
+                        width={20}
+                        height={20}
                     />
                     <div>
                         <h3 className="text-xl font-semibold mb-2">Support Through Chai</h3>

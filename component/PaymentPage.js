@@ -179,7 +179,7 @@ const PaymentPage = ({ username }) => {
                             {payments.map((p, i) => {
                                 return <li key={i} className='my-2 flex gap-2 items-center'>
                                     <img className='rounded-full' width={45} src={`https://randomuser.me/api/portraits/men/${i}.jpg`} alt="" />
-                                    <span className='font-bold'>{p.name}</span> donated <span className='font-bold'>₹{p.amount}</span>
+                                    <span className='font-bold'>{p.name}</span> donated <span className='font-bold text-green-300'>₹{p.amount}</span>
                                     <div className="truncate max-w-[200px] text-gray-300" title={p.message}>
                                         {p.message && `: ${p.message}`}
                                     </div>
